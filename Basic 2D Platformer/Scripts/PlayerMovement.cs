@@ -76,14 +76,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else
                 body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 4, 6);
-            wallJumpCooldown = 0;
-            
+            wallJumpCooldown = 0;         
         }
         
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
     }
 
     private bool isGrounded()
@@ -92,11 +87,14 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center,boxCollider.bounds.size,0,Vector2.down,0.1f,groundLayer);
         return raycastHit.collider != null;
     }
-
     private bool onWall()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.1f, wallLayer);
         return raycastHit.collider != null;
     }
 
+    public bool canAttack()
+    {
+        return horizontal_input == 0 && isGrounded() && !onWall();
+    }
 }
